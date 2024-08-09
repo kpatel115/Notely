@@ -1,7 +1,13 @@
 const { ApolloServer, gql } = require('apollo-server-express');
 const express = require('express');
 
+require('dotenv').config();
+const db = require('./db');
+
+const models = require('./models')
+
 const port = process.env.PORT || 4000;
+const DB_HOST = process.env.DB_HOST;
 
 let notes = [
     { id: '1', content: 'This is a note', author: "Adam Scott" },
@@ -29,7 +35,10 @@ const typeDefs = gql`
 const resolvers = {
     Query: {
         hello: () => 'Hello World',
-        notes: () => notes,
+        // notes: () => notes rather than storing and having data in-memory well use mongoDB
+        notes: async () => {
+            return await models.Note.find();
+        },
         note: (parent, args) => {
             return notes.find(note => note.id === args.id)
         }
@@ -48,6 +57,9 @@ const resolvers = {
 };
 
 const app = express();
+
+// Calling Connection
+db.connect(DB_HOST);
 
 // Apollo Server Setup 
 const server = new ApolloServer({ typeDefs, resolvers });
