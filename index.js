@@ -2,12 +2,12 @@ const { ApolloServer, gql } = require('apollo-server-express');
 const express = require('express');
 
 require('dotenv').config();
-const db = require('./db');
+const db = require('./src/db');
 
-const models = require('./models')
+const models = require('./src/models')
 
 const port = process.env.PORT || 4000;
-const DB_HOST = process.env.DB_HOST;
+const DB_HOST = process.env.MONGODB_URI;
 
 let notes = [
     { id: '1', content: 'This is a note', author: "Adam Scott" },
