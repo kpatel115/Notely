@@ -1,4 +1,4 @@
-const Note = require('./note');
+const Note = require('./Note');
 
 const models = { 
     Note
