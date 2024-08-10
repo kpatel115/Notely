@@ -7,7 +7,7 @@ require('dotenv').config();
 // Local Module Imports
 // MongoDB and Models
 const db = require('./src/db');
-const models = require('./src/models/Note')
+const models = require('./src/models/index')
 const typeDefs = require('./src/schema');
 const resolvers= require('./src/resolvers/index')
 

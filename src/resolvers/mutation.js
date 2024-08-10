@@ -12,12 +12,28 @@ module.exports = {
             throw new Error("Failed to create note.");
         }
     },
-    deleteNote: async (parent, { id }, { models }) => {
+    deleteNote: async (parent, args, { models }) => {
         try {
-            await models.Note.findOneAndRemove({ _id: id});
+            await models.Note.findOneAndDelete({ _id: args.id});
             return true;
         } catch(err){
-            return false;
+            throw new Error(`Error deleting note: ${err}`);
+
         }
+    },
+    updateNote: async (parent, args, { models }) => {
+        return await models.Note.findOneAndUpdate(
+            {
+                _id: args.id,
+            },
+            {
+                $set: {
+                    content
+                }
+            },
+            {
+                new: true
+            }
+        );
     },
 };
