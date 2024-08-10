@@ -1,9 +1,9 @@
 // Module Export for Query
 module.exports = {
-    notes: async () => {
-        return await models.Note.find();
+    notes: async ( parents, args, { models}) => {
+        return await models.Note.findAll();
     },
-    note: async (parent, args) => {
+    note: async (parent, args, { models }) => {
         return await models.Note.findById(args.id);
         // notes.find(note => note.id === args.id)
     }

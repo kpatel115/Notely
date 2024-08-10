@@ -8,11 +8,13 @@ module.exports = gql`
     }
     
     type Query {
-        notes: [Note!]!
-        note:(id: ID!): Note!
+        notes: [Note!]
+        note(id: ID!): Note
     }
 
     type Mutation {
-    newNote(content: String!): Note!
+        newNote(content: String!): Note!
+        updateNote(id: ID!, content: String!): Note!
+        deleteNote(id: ID!): Boolean
     }
 `;

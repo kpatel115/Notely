@@ -1,16 +1,22 @@
-// Apollo Server and GraphQL + typeDefs Schema
-const { ApolloServer, gql } = require('apollo-server-express');
-const typeDefs = require('./src/schema');
 // Express
 const express = require('express');
+// Apollo Server and GraphQL + typeDefs Schema
+const { ApolloServer} = require('apollo-server-express');
 //DotENV
 require('dotenv').config();
+// Local Module Imports
 // MongoDB and Models
 const db = require('./src/db');
-const models = require('./src/models')
-const DB_HOST = process.env.MONGODB_URI;
+const models = require('./src/models/Note')
+const typeDefs = require('./src/schema');
+const resolvers= require('./src/resolvers/index')
+
+
 // Port assignment
 const port = process.env.PORT || 4000;
+// MongoDB Connection String
+const DB_HOST = process.env.MONGODB_URI;
+
 
 // Hardcoded Data used in GraphQL Sandbox - deleted for space 
 
@@ -24,7 +30,14 @@ const app = express();
 db.connect(DB_HOST);
 
 // Apollo Server Setup 
-const server = new ApolloServer({ typeDefs, resolvers });
+const server = new ApolloServer({ 
+    typeDefs, 
+    resolvers,
+    context: () => {
+        // add db models to the context
+    return { models };
+    } 
+});
 
 async function startServer() {
     await server.start();
