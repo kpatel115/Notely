@@ -14,7 +14,7 @@ const noteSchema = new mongoose.Schema(
     },
     {
         //Assings createAt and updatedAt fields with a Date type
-        Timestamps: true
+        timestamps: true
     }
 );
 

@@ -10,6 +10,9 @@ const db = require('./src/db');
 const models = require('./src/models/index')
 const typeDefs = require('./src/schema');
 const resolvers= require('./src/resolvers/index')
+// JWT
+const jwt = require('jsonwebtoken');
+
 
 
 // Port assignment
@@ -29,13 +32,31 @@ const app = express();
 // Calling Connection
 db.connect(DB_HOST);
 
+// get the user info from a JWT
+const getUser = token => {
+    if(token) {
+        try {
+            // return the user info from the token
+            return jwt.verify(token, process.env.JWT_SECRET);
+        } catch(err) {
+            // if theres a probelm with the token, throw and error
+            throw new Error('Session invalid - Token error');
+        }
+    }
+};
 // Apollo Server Setup 
 const server = new ApolloServer({ 
     typeDefs, 
     resolvers,
-    context: () => {
-        // add db models to the context
-    return { models };
+    context: ({ req }) => {
+        // get user token from headers
+        const token = req.headers.authorization;
+        // try to retrive a user with the token
+        const user = getUser(token);
+        // for now lets log the user to the console
+        console.log(user);
+        // add db models and the user to the context
+    return { models, user };
     } 
 });
 
