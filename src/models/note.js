@@ -12,7 +12,7 @@ const noteSchema = new mongoose.Schema(
             ref: 'User',
             required: true
         },
-        // add the favoriteCount property
+        // add the favoriteCount or favorites property
         favoriteCount: {
             type: Number,
             default: 0

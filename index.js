@@ -12,22 +12,21 @@ const typeDefs = require('./src/schema');
 const resolvers= require('./src/resolvers/index')
 // JWT
 const jwt = require('jsonwebtoken');
-
-
-
+// Middlware Express Helmet
+const helmet = require('helment');
 // Port assignment
 const port = process.env.PORT || 4000;
 // MongoDB Connection String
 const DB_HOST = process.env.MONGODB_URI;
 
-
 // Hardcoded Data used in GraphQL Sandbox - deleted for space 
-
 // Construct a schema, using GraphQL's Schema language - imported through schema.js
-
 // Provide Resolver Functions for our schema fields - refactored to resolvers folder
 
+// Code starts to function here
 const app = express();
+// use helment early in our middleware stack
+app.use(helmet());
 
 // Calling Connection
 db.connect(DB_HOST);
