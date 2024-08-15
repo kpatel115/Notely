@@ -1,0 +1,7 @@
+"use strict";
+
+var _templateObject;
+function _taggedTemplateLiteral(e, t) { return t || (t = e.slice(0)), Object.freeze(Object.defineProperties(e, { raw: { value: Object.freeze(t) } })); }
+var _require = require('apollo-server-express'),
+  gql = _require.gql;
+module.exports = gql(_templateObject || (_templateObject = _taggedTemplateLiteral(["\n    scalar DateTime\n    \n    type Note {\n        id: ID!\n        content: String!\n        author: User!\n        createdAt: DateTime!\n        updatedAt: DateTime!\n        favoriteCount: Int!\n        favoritedBy: [User!]\n    }\n\n    type User {\n        id: ID!\n        username: String!\n        email: String!\n        avatar: String\n        notes: [Note!]!\n        favorites: [Note!]!\n    }\n    \n    type NoteFeed {\n        notes: [Note]!\n        cursor: String!\n        hasNextPage: Boolean!\n    }\n    \n    type Query {\n        notes: [Note!]\n        note(id: ID!): Note\n        user(username: String!): User\n        users: [User!]!\n        me: User!\n        noteFeed(cursor: String): NoteFeed\n    }\n\n    type Mutation {\n        newNote(content: String!): Note!\n        updateNote(id: ID!, content: String!): Note!\n        deleteNote(id: ID!): Boolean\n        signUp(username: String!, email: String!, password: String!): String!\n        signIn(username: String, email: String, password: String!): String!\n        toggleFavorite(id: ID!): Note!\n    }\n"])));
