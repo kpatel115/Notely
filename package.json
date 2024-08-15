@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "nodemon --exec babel-node index.js",
     "start": "node build/index.js",
-    "build": "babel build",
+    "build": "npx babel build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
