@@ -13,8 +13,10 @@ const resolvers= require('./src/resolvers/index')
 // JWT
 const jwt = require('jsonwebtoken');
 // Middlware Express Helmet & Cross-Origin Resource Sharing 
-const helmet = require('helmet');
-const cors = require('cors');
+// const helmet = require('helmet');
+// const cors = require('cors');
+const depthLimit = require('graphql-depth-limit');
+const { createComplexityLimitRule } = require('graphql-validation-complexity');
 
 // Port assignment
 const port = process.env.PORT || 4000;
@@ -28,8 +30,8 @@ const DB_HOST = process.env.MONGODB_URI;
 // Code starts to function here
 const app = express();
 // use helment early in our middleware stack
-app.use(helmet());
-app.use(cors());
+// app.use(helmet());
+// app.use(cors());
 // Calling Connection
 db.connect(DB_HOST);
 
@@ -49,6 +51,7 @@ const getUser = token => {
 const server = new ApolloServer({ 
     typeDefs, 
     resolvers,
+    validationRules: [depthLimit(5), createComplexityLimitRule(1000)],
     context: ({ req }) => {
         // get user token from headers
         const token = req.headers.authorization;
